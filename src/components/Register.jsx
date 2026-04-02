@@ -9,28 +9,25 @@ function Register() {
 
   const navigate = useNavigate();
 
-  const handleRegister = async (e) => {
+  const handleRegister = (e) => {
     e.preventDefault();
-    setIsLoading(true);
-    try {
-      await fetch("http://localhost:8089/auth/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ name, email, password })
-      });
 
+    if (!name || !email || !password) {
+      return;
+    }
+
+    setIsLoading(true);
+
+    try {
+      localStorage.setItem("user", JSON.stringify({ name, email, password }));
       navigate("/");
-    } catch (err) {
-      alert("Registration failed");
     } finally {
       setIsLoading(false);
     }
   };
 
   return (
-    <div className="page-fade-in" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '100vh', padding: '2rem' }}>
+    <div className="page-fade-in" style={{ display: "flex", alignItems: "center", justifyContent: "center", minHeight: "100vh", padding: "2rem" }}>
       <div className="glass-panel form-container">
         <div className="form-header">
           <h2>Create Account</h2>
@@ -40,36 +37,36 @@ function Register() {
         <form onSubmit={handleRegister}>
           <div className="input-group">
             <label>Full Name</label>
-            <input 
+            <input
               className="premium-input"
               type="text"
-              placeholder="John Doe" 
+              placeholder="John Doe"
               value={name}
-              onChange={(e) => setName(e.target.value)} 
+              onChange={(e) => setName(e.target.value)}
               required
             />
           </div>
-          
+
           <div className="input-group">
             <label>Email Address</label>
-            <input 
+            <input
               className="premium-input"
               type="email"
-              placeholder="name@example.com" 
+              placeholder="name@example.com"
               value={email}
-              onChange={(e) => setEmail(e.target.value)} 
+              onChange={(e) => setEmail(e.target.value)}
               required
             />
           </div>
-          
+
           <div className="input-group">
             <label>Password</label>
-            <input 
+            <input
               className="premium-input"
-              type="password" 
-              placeholder="••••••••" 
+              type="password"
+              placeholder="••••••••"
               value={password}
-              onChange={(e) => setPassword(e.target.value)} 
+              onChange={(e) => setPassword(e.target.value)}
               required
             />
           </div>
@@ -82,7 +79,7 @@ function Register() {
         </form>
 
         <div className="auth-redirect">
-          Already have an account? <span onClick={() => navigate('/')}>Sign in</span>
+          Already have an account? <span onClick={() => navigate("/")}>Sign in</span>
         </div>
       </div>
     </div>

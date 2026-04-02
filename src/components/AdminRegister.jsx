@@ -9,32 +9,28 @@ function AdminRegister() {
 
   const navigate = useNavigate();
 
-  const handleRegister = async (e) => {
+  const handleRegister = (e) => {
     e.preventDefault();
-    setIsLoading(true);
-    try {
-      await fetch("http://localhost:8089/auth/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ name, email, password })
-      });
 
-      alert("Admin registration successful!");
+    if (!name || !email || !password) {
+      return;
+    }
+
+    setIsLoading(true);
+
+    try {
+      localStorage.setItem("adminUser", JSON.stringify({ name, email, password }));
       navigate("/admin-login");
-    } catch (err) {
-      alert("Registration failed");
     } finally {
       setIsLoading(false);
     }
   };
 
   return (
-    <div className="page-fade-in" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '100vh', padding: '2rem' }}>
-      <div className="glass-panel form-container" style={{ borderTop: '4px solid var(--primary)' }}>
+    <div className="page-fade-in" style={{ display: "flex", alignItems: "center", justifyContent: "center", minHeight: "100vh", padding: "2rem" }}>
+      <div className="glass-panel form-container" style={{ borderTop: "4px solid var(--primary)" }}>
         <div className="form-header">
-          <h2 style={{ background: 'linear-gradient(135deg, #fff, #ef4444)', WebkitBackgroundClip: 'text', backgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+          <h2 style={{ background: "linear-gradient(135deg, #fff, #ef4444)", WebkitBackgroundClip: "text", backgroundClip: "text", WebkitTextFillColor: "transparent" }}>
             Admin Setup
           </h2>
           <p>Register a new staff account.</p>
@@ -78,14 +74,14 @@ function AdminRegister() {
           </div>
 
           <div className="form-actions">
-            <button type="submit" className="premium-btn" disabled={isLoading} style={{ background: 'linear-gradient(135deg, #b91c1c, #991b1b)' }}>
+            <button type="submit" className="premium-btn" disabled={isLoading} style={{ background: "linear-gradient(135deg, #b91c1c, #991b1b)" }}>
               {isLoading ? "Registering..." : "Create Admin Account"}
             </button>
           </div>
         </form>
 
         <div className="auth-redirect">
-          Already have staff access? <span onClick={() => navigate('/admin-login')} style={{ color: '#ef4444' }}>Sign in</span>
+          Already have staff access? <span onClick={() => navigate("/admin-login")} style={{ color: "#ef4444" }}>Sign in</span>
         </div>
       </div>
     </div>
